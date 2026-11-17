@@ -12,4 +12,8 @@ Documentación del proyecto para la materia Desarrollo de Sistemas Orientado a O
 | [Diagramas de estados](documentacion/diagramas-de-estados.pdf) | 23/09/2026 | Cambios durante la sala y la partida. |
 | [DER y mapeo ORM](documentacion/der-y-mapeo-orm.pdf) | 13/10/2026 | Cómo se organizan y relacionan los datos. |
 
-Más adelante se programará una partida en Python para mostrar y explicar cómo funciona el juego. También se harán el manual de usuario y el manual técnico.
+## Demostración en Python
+
+En [`codificacion`](codificacion/) hay una demostración de una ronda con ocho participantes, decisiones preparadas y votación. Para ejecutarla, abrí una terminal en esa carpeta y escribí `python3 main.py`. Ver [instrucciones](codificacion/LEEME_programacion.md) y [guía para exponer](codificacion/GUIA_PARA_EXPONER.md).
+
+La demostración es parcial y se utiliza para explicar programación orientada a objetos. Los manuales documentan el diseño de la aplicación móvil y conservan su alcance original.

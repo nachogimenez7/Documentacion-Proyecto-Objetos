@@ -1,9 +1,10 @@
 class Jugador:
-    """Identidad del jugador, independiente de una partida concreta."""
+    def __init__(self, id: int, nombre: str):
+        self.__id: int = id
+        self.__nombre: str = nombre
 
-    def __init__(self, identificador, nombre):
-        self.identificador = identificador
-        self.nombre = nombre
+    def obtenerId(self) -> int:
+        return self.__id
 
-    def obtenerNombre(self):
-        return self.nombre
+    def obtenerNombre(self) -> str:
+        return self.__nombre

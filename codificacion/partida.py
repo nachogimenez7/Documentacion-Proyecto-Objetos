@@ -1,32 +1,54 @@
+from participacion import Participacion
+
+
 class Partida:
-    """Reúne las participaciones y comprueba el resultado de la partida."""
 
-    def __init__(self, participaciones):
-        self.participaciones = participaciones
-        self.ronda = 1
-        self.fase = "Preparación"
-        self.ganador = None
+    def __init__(self):
+        self.__participaciones: list[Participacion] = []
 
-    def comprobarVictoria(self):
-        pueblo_vivo = 0
-        traidores_vivos = 0
-        atacantes_vivos = 0
+    def agregarParticipacion(self, participacion: Participacion):
+        self.__participaciones.append(participacion)
 
-        for participacion in self.participaciones:
-            if participacion.estaVivo():
-                if participacion.rol.equipo == "Pueblo":
-                    pueblo_vivo = pueblo_vivo + 1
-                elif participacion.rol.equipo == "Traidores":
-                    traidores_vivos = traidores_vivos + 1
+    def mostrarParticipantes(self):
+        for participacion in self.__participaciones:
+            jugador = participacion.obtenerJugador()
+            rol = participacion.obtenerRol()
+            print(jugador.obtenerNombre(), "-", rol.obtenerNombreRol())
 
-                if participacion.rol.nombre == "Asesino" or participacion.rol.nombre == "Espía":
-                    atacantes_vivos = atacantes_vivos + 1
+    def resolverNoche(self, victima: Participacion, protegido: Participacion):
+        nombreVictima = victima.obtenerJugador().obtenerNombre()
+        nombreProtegido = protegido.obtenerJugador().obtenerNombre()
 
-        # Primero se revisa si el Pueblo ganó, aunque quede el Mercenario.
-        if atacantes_vivos == 0:
-            self.ganador = "Pueblo"
-        elif traidores_vivos >= pueblo_vivo:
-            self.ganador = "Traidores"
+        print("\nNOCHE")
+        print("El Asesino eligió a", nombreVictima)
+        print("El Médico protegió a", nombreProtegido)
+
+        if victima == protegido:
+            print(nombreVictima, "sigue con vida.")
         else:
-            self.ganador = None
-        return self.ganador
+            victima.eliminar()
+            print(nombreVictima, "fue eliminado.")
+
+    def resolverVotacion(self, votos: list[Participacion]):
+        print("\nVOTACIÓN")
+        mayorCantidad = 0
+        masVotado = None
+        empate = False
+
+        for participante in self.__participaciones:
+            cantidad = votos.count(participante)
+            if cantidad > mayorCantidad:
+                mayorCantidad = cantidad
+                masVotado = participante
+                empate = False
+            elif cantidad > 0 and cantidad == mayorCantidad:
+                empate = True
+
+        if masVotado is None:
+            print("No hubo votos.")
+        elif empate:
+            print("Hubo un empate; no se resuelve en este ejemplo.")
+        else:
+            masVotado.eliminar()
+            print(masVotado.obtenerJugador().obtenerNombre(),
+                  "fue expulsado con", mayorCantidad, "votos.")

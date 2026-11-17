@@ -1,9 +1,11 @@
 class Rol:
-    """Rol asignado a un participante y equipo al que pertenece."""
 
-    def __init__(self, nombre, equipo):
-        self.nombre = nombre
-        self.equipo = equipo
+    def __init__(self, nombre: str, equipo: str):
+        self.__nombre: str = nombre
+        self.__equipo: str = equipo
 
-    def obtenerEquipo(self):
-        return self.equipo
+    def obtenerNombreRol(self) -> str:
+        return self.__nombre
+
+    def obtenerEquipoRol(self) -> str:
+        return self.__equipo

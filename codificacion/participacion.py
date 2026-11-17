@@ -1,19 +1,22 @@
+from jugador import Jugador
+from rol import Rol
+
+
 class Participacion:
-    """Estado de un jugador dentro de una partida."""
 
-    def __init__(self, jugador, rol):
-        self.jugador = jugador
-        self.rol = rol
-        self.vivo = True
-        self.restringido = False
-        self.identidad_revelada = False
-        self.victoria_individual = False
+    def __init__(self, jugador: Jugador, rol: Rol):
+        self.__jugador: Jugador = jugador
+        self.__rol: Rol = rol
+        self.__vivo: bool = True
 
-    def estaVivo(self):
-        return self.vivo
+    def obtenerJugador(self) -> Jugador:
+        return self.__jugador
+
+    def obtenerRol(self) -> Rol:
+        return self.__rol
+
+    def estaVivo(self) -> bool:
+        return self.__vivo
 
     def eliminar(self):
-        self.vivo = False
-
-    def puedeVotar(self):
-        return self.vivo and not self.restringido
+        self.__vivo = False
