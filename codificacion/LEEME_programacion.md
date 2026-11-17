@@ -20,5 +20,6 @@ En Windows también puede funcionar `py main.py` o `python main.py`, según cóm
 - `partida.py`: guarda participaciones y resuelve la noche y la votación del ejemplo.
 - `main.py`: crea los objetos y prepara las decisiones de la ronda.
 - `GUIA_PARA_EXPONER.md`: explicación de cada archivo y sugerencias para la presentación.
+- `EXPLICACION_LINEA_POR_LINEA.md`: explicación detallada del código, agrupando instrucciones repetidas.
 
 Las elecciones y votos son fijos; se muestran los roles solo para explicar el ejemplo. No se implementan todas las habilidades, la victoria final, la validación completa de acciones ni el desempate. `Guia_para_programar_una_partida.md` conserva una propuesta anterior de 12 participantes; la demostración actual usa ocho.
