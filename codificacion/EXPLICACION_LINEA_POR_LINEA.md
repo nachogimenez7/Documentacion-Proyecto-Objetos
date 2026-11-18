@@ -306,6 +306,14 @@ partida1.resolverVotacion(votos)
 ```
 Entrega la lista al método que cuenta los votos y expulsa al único más votado: Juan.
 
+```python
+if participacion6.estaVivo():
+    print("Juan sigue en la partida.")
+else:
+    print("Juan está eliminado.")
+```
+Consulta el estado de Juan después de la votación. Si `estaVivo()` devuelve `True`, muestra que sigue en la partida; si devuelve `False`, indica que está eliminado. Esta comprobación es específica de Juan, que en el ejemplo es `participacion6`.
+
 ## 6. Cómo explicarlo de corrido
 
 «Primero tengo las clases Jugador y Rol, que representan la identidad y el rol. Después Participacion relaciona ambos objetos y guarda si el jugador está vivo. Partida tiene una lista de participaciones y métodos para recorrerla, resolver la noche y contar una votación. En main creo los objetos, los relaciono y preparo una ronda de ejemplo».

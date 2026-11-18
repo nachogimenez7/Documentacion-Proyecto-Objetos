@@ -51,11 +51,15 @@ partida1.agregarParticipacion(participacion8)
 print("PARTICIPANTES DE LA PARTIDA")
 partida1.mostrarParticipantes()
 
-# El Asesino y el Médico eligen a Lucas.
 partida1.resolverNoche(participacion1, participacion1)
 
-# Los votos están preparados: cinco para Juan y tres para Federico.
+
 votos = [participacion6, participacion6, participacion6,
          participacion6, participacion6, participacion2,
          participacion2, participacion2]
 partida1.resolverVotacion(votos)
+
+if participacion6.estaVivo():
+    print("Juan sigue en la partida.")
+else:
+    print("Juan está eliminado.")
