@@ -2,7 +2,7 @@
 
 ## 1. Cómo empezar la presentación
 
-«Mi proyecto se basa en Traidores, un juego de deducción social. Para mostrar el paradigma de objetos preparé una demostración de una ronda en Python. Creo ocho participantes con roles, represento una elección nocturna del Asesino y del Médico y cuento una votación. Las decisiones están preparadas en el código».
+«Mi proyecto se basa en Traidores, un juego de deducción social. Para mostrar el paradigma de objetos preparé una demostración de una ronda en Python. Creo ocho participantes, sorteo sus roles, represento una elección nocturna del Asesino y del Médico y cuento una votación. Las decisiones están preparadas en el código».
 
 La demostración es parcial: no es toda la aplicación móvil ni una partida completa. No implementa las habilidades del Detective, el Mercenario y el Bufón, condiciones de victoria, entrada interactiva ni un desempate. Los roles se muestran en pantalla para la explicación, aunque en el juego son secretos.
 
@@ -16,7 +16,7 @@ python3 main.py
 
 En Windows puede utilizarse `py main.py` o `python main.py`, según la instalación. Se necesita Python 3.9 o posterior; no hay bibliotecas adicionales. En VS Code también se puede abrir `main.py` y usar el botón para ejecutar Python.
 
-El resultado presenta a los ocho participantes. El Asesino elige a Lucas y el Médico también, por lo que Lucas sobrevive. Luego Juan es expulsado con cinco votos, frente a tres para Federico.
+El resultado presenta a los ocho participantes con roles sorteados. El Asesino y el Médico eligen al mismo Aldeano, que sobrevive. Luego el Asesino recibe cinco votos frente a tres para ese Aldeano y es expulsado. Los nombres cambian en cada ejecución.
 
 ## 3. ¿Qué es programar con objetos?
 
@@ -61,9 +61,9 @@ Las elecciones y los votos se proporcionan preparados. El programa no valida qui
 
 ### `main.py`
 
-«Es el punto de inicio del ejemplo. Importa las clases, crea los jugadores y roles, relaciona cada jugador con su rol mediante una participación y agrega las ocho participaciones a la partida. Después llama a los métodos que muestran la noche y la votación».
+«Es el punto de inicio del ejemplo. Importa las clases, crea los jugadores y roles, mezcla la lista de roles con `random.shuffle(roles)`, relaciona cada jugador con un rol mediante una participación y agrega las ocho participaciones a la partida. Después llama a los métodos que muestran la noche y la votación».
 
-En la lista `votos`, cada elemento es el candidato elegido: Juan aparece cinco veces y Federico tres. La lista no registra la identidad de cada votante.
+En la lista `votos`, cada elemento es el candidato elegido: el Asesino aparece cinco veces y el Aldeano elegido tres. La lista no registra la identidad de cada votante.
 
 ## 5. Orden sugerido para mostrar el código
 

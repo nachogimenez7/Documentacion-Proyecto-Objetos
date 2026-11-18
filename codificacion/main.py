@@ -1,10 +1,12 @@
+import random
+
 from jugador import Jugador
 from rol import Rol
 from participacion import Participacion
 from partida import Partida
 
 
-# Creamos a los jugadores
+# Creamos a los jugadores.
 jugador1 = Jugador(1, "Lucas")
 jugador2 = Jugador(2, "Federico")
 jugador3 = Jugador(3, "César")
@@ -14,52 +16,53 @@ jugador6 = Jugador(6, "Juan")
 jugador7 = Jugador(7, "Elías")
 jugador8 = Jugador(8, "Walter")
 
-
-# Creamos los roles
+# Preparamos los ocho roles y mezclamos su orden.
 rolAldeano = Rol("Aldeano", "Pueblo")
-rolMedico = Rol("Médico", "Pueblo")
-rolDetective = Rol("Detective", "Pueblo")
-rolAsesino = Rol("Asesino", "Traidores")
-rolMercenario = Rol("Mercenario", "Traidores")
-rolBufon = Rol("Bufón", "Neutral")
+roles = [rolAldeano, rolAldeano, rolAldeano,
+         Rol("Médico", "Pueblo"), Rol("Detective", "Pueblo"),
+         Rol("Asesino", "Traidores"), Rol("Mercenario", "Traidores"),
+         Rol("Bufón", "Neutral")]
+random.shuffle(roles)
 
+# Asignamos a cada jugador un rol de la lista mezclada.
+participacion1 = Participacion(jugador1, roles[0])
+participacion2 = Participacion(jugador2, roles[1])
+participacion3 = Participacion(jugador3, roles[2])
+participacion4 = Participacion(jugador4, roles[3])
+participacion5 = Participacion(jugador5, roles[4])
+participacion6 = Participacion(jugador6, roles[5])
+participacion7 = Participacion(jugador7, roles[6])
+participacion8 = Participacion(jugador8, roles[7])
 
-# Unimos cada jugador con su rol
-participacion1 = Participacion(jugador1, rolAldeano)
-participacion2 = Participacion(jugador2, rolAldeano)
-participacion3 = Participacion(jugador3, rolAldeano)
-participacion4 = Participacion(jugador4, rolMedico)
-participacion5 = Participacion(jugador5, rolDetective)
-participacion6 = Participacion(jugador6, rolAsesino)
-participacion7 = Participacion(jugador7, rolMercenario)
-participacion8 = Participacion(jugador8, rolBufon)
+participaciones = [participacion1, participacion2, participacion3, participacion4,
+                   participacion5, participacion6, participacion7, participacion8]
 
-
-# Creamos la partida y agregamos las participaciones
+# Agregamos las participaciones y buscamos los roles para el ejemplo.
 partida1 = Partida()
-
-partida1.agregarParticipacion(participacion1)
-partida1.agregarParticipacion(participacion2)
-partida1.agregarParticipacion(participacion3)
-partida1.agregarParticipacion(participacion4)
-partida1.agregarParticipacion(participacion5)
-partida1.agregarParticipacion(participacion6)
-partida1.agregarParticipacion(participacion7)
-partida1.agregarParticipacion(participacion8)
-
+for participacion in participaciones:
+    partida1.agregarParticipacion(participacion)
+    nombreRol = participacion.obtenerRol().obtenerNombreRol()
+    if nombreRol == "Asesino":
+        asesino = participacion
+    elif nombreRol == "Médico":
+        medico = participacion
+    elif nombreRol == "Aldeano":
+        aldeano = participacion
 
 print("PARTICIPANTES DE LA PARTIDA")
 partida1.mostrarParticipantes()
+print("\nAsesino:", asesino.obtenerJugador().obtenerNombre())
+print("Médico:", medico.obtenerJugador().obtenerNombre())
 
-partida1.resolverNoche(participacion1, participacion1)
+# En esta demostración el Asesino y el Médico eligen al mismo Aldeano.
+partida1.resolverNoche(aldeano, aldeano)
 
-
-votos = [participacion6, participacion6, participacion6,
-         participacion6, participacion6, participacion2,
-         participacion2, participacion2]
+# Votos preparados: cinco para el Asesino y tres para un Aldeano.
+votos = [asesino, asesino, asesino, asesino, asesino,
+         aldeano, aldeano, aldeano]
 partida1.resolverVotacion(votos)
 
-if participacion6.estaVivo():
-    print("Juan sigue en la partida.")
+if asesino.estaVivo():
+    print(asesino.obtenerJugador().obtenerNombre(), "sigue en la partida.")
 else:
-    print("Juan está eliminado.")
+    print(asesino.obtenerJugador().obtenerNombre(), "está eliminado.")

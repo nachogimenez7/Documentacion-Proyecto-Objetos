@@ -154,7 +154,7 @@ Pide a esa participación sus dos objetos relacionados y los guarda en variables
 ```python
 print(jugador.obtenerNombre(), "-", rol.obtenerNombreRol())
 ```
-Muestra el nombre del jugador y el nombre de su rol. Se llama a los métodos de los objetos correspondientes. Por ejemplo: `Lucas - Aldeano`.
+Muestra el nombre del jugador y el nombre de su rol. Se llama a los métodos de los objetos correspondientes. Por ejemplo: `Lucas - Aldeano`; el rol asignado cambia con el sorteo.
 
 ### Resolver la noche
 
@@ -246,9 +246,14 @@ Si hubo un único más votado, se elimina esa participación y se muestran su no
 
 ### Ejemplo del conteo actual
 
-La lista preparada tiene cinco referencias a la participación de Juan y tres a la de Federico. Al recorrer a Federico, `count()` devuelve 3; al recorrer a Juan, devuelve 5. Como 5 es mayor que 3, Juan pasa a ser el más votado y se lo expulsa.
+La lista preparada tiene cinco referencias a la participación del Asesino sorteado y tres a la del Aldeano elegido. `count()` devuelve 5 para el Asesino y 3 para el Aldeano. Como 5 es mayor que 3, el Asesino es el más votado y se lo expulsa.
 
 ## 5. main.py
+
+```python
+import random
+```
+Importa el módulo que usamos para mezclar los roles. Viene incluido en Python.
 
 ```python
 from jugador import Jugador
@@ -256,67 +261,82 @@ from rol import Rol
 from participacion import Participacion
 from partida import Partida
 ```
-Importa las cuatro clases desde sus archivos. `main.py` prepara la demostración y llama a los métodos.
+Importa las cuatro clases desde sus archivos.
 
 ```python
 jugador1 = Jugador(1, "Lucas")
 ```
-Crea un objeto de la clase Jugador con identificador 1 y nombre Lucas. Las siguientes siete líneas hacen lo mismo para Federico, César, Matías, Ramiro, Juan, Elías y Walter, con sus propios números.
+Crea el objeto que representa a Lucas. Las siete líneas siguientes crean los demás jugadores con sus identificadores y nombres.
 
 ```python
 rolAldeano = Rol("Aldeano", "Pueblo")
+roles = [rolAldeano, rolAldeano, rolAldeano,
+         Rol("Médico", "Pueblo"), Rol("Detective", "Pueblo"),
+         Rol("Asesino", "Traidores"), Rol("Mercenario", "Traidores"),
+         Rol("Bufón", "Neutral")]
+random.shuffle(roles)
 ```
-Crea un objeto de la clase Rol. Las siguientes líneas crean los roles Médico, Detective, Asesino, Mercenario y Bufón con sus equipos.
+Se crea una lista con los ocho roles: tres Aldeanos y uno de cada rol especial. `random.shuffle(roles)` mezcla el orden de esa misma lista. No crea ni elimina roles, solo cambia sus posiciones.
 
 ```python
-participacion1 = Participacion(jugador1, rolAldeano)
+participacion1 = Participacion(jugador1, roles[0])
 ```
-Crea una participación que relaciona a Lucas con el rol Aldeano. Las demás líneas relacionan cada jugador con su rol. Lucas, Federico y César comparten `rolAldeano`, pero tienen participaciones distintas y por eso el estado vivo de cada uno es independiente.
+Relaciona a Lucas con el rol que quedó en la posición 0 de la lista mezclada. Las siguientes líneas hacen lo mismo con los demás jugadores y las posiciones 1 a 7. Cada posición se usa una sola vez.
 
 ```python
+participaciones = [participacion1, participacion2, participacion3, participacion4,
+                   participacion5, participacion6, participacion7, participacion8]
 partida1 = Partida()
 ```
-Crea un objeto Partida. Su constructor comienza con la lista de participaciones vacía.
+Reúne las participaciones en una lista y crea una partida vacía.
 
 ```python
-partida1.agregarParticipacion(participacion1)
+for participacion in participaciones:
+    partida1.agregarParticipacion(participacion)
+    nombreRol = participacion.obtenerRol().obtenerNombreRol()
 ```
-Le pide a `partida1` que agregue esa participación. Las siete líneas siguientes agregan las demás.
+El `for` recorre las ocho participaciones, agrega cada una a la partida y obtiene el nombre del rol que le tocó.
 
 ```python
-print("PARTICIPANTES DE LA PARTIDA")
+if nombreRol == "Asesino":
+    asesino = participacion
+elif nombreRol == "Médico":
+    medico = participacion
+elif nombreRol == "Aldeano":
+    aldeano = participacion
+```
+Guarda las participaciones necesarias para la demostración. Como hay tres Aldeanos y la variable se reemplaza en cada coincidencia, `aldeano` queda con el último Aldeano encontrado en la lista. El código no elige a ese Aldeano al azar por separado.
+
+```python
 partida1.mostrarParticipantes()
+print("\nAsesino:", asesino.obtenerJugador().obtenerNombre())
+print("Médico:", medico.obtenerJugador().obtenerNombre())
 ```
-Muestra el título y llama al método que recorre y presenta la lista. Los roles se muestran para la demostración; en el juego real son secretos.
+Muestra a los participantes y quiénes recibieron los roles necesarios para entender el ejemplo. Los roles se muestran solo para la demostración.
 
 ```python
-partida1.resolverNoche(participacion1, participacion1)
+partida1.resolverNoche(aldeano, aldeano)
 ```
-Llama al método de la partida y le pasa las dos elecciones preparadas. Ambas son Lucas, así que la protección funciona. El programa muestra que el Asesino y el Médico eligieron a Lucas; no pregunta a los usuarios ni verifica la identidad de quienes eligen.
+Prepara la misma participación como víctima y protegido. La protección funciona. Las elecciones no son interactivas.
 
 ```python
-votos = [participacion6, participacion6, participacion6,
-         participacion6, participacion6, participacion2,
-         participacion2, participacion2]
-```
-Crea una lista de ocho votos preparados: `participacion6` es Juan y aparece cinco veces; `participacion2` es Federico y aparece tres. Cada elemento indica un candidato votado, no quién votó.
-
-```python
+votos = [asesino, asesino, asesino, asesino, asesino,
+         aldeano, aldeano, aldeano]
 partida1.resolverVotacion(votos)
 ```
-Entrega la lista al método que cuenta los votos y expulsa al único más votado: Juan.
+Prepara cinco votos para el Asesino sorteado y tres para el Aldeano, y pide a la partida que los cuente. La lista indica candidatos, no quién votó.
 
 ```python
-if participacion6.estaVivo():
-    print("Juan sigue en la partida.")
+if asesino.estaVivo():
+    print(asesino.obtenerJugador().obtenerNombre(), "sigue en la partida.")
 else:
-    print("Juan está eliminado.")
+    print(asesino.obtenerJugador().obtenerNombre(), "está eliminado.")
 ```
-Consulta el estado de Juan después de la votación. Si `estaVivo()` devuelve `True`, muestra que sigue en la partida; si devuelve `False`, indica que está eliminado. Esta comprobación es específica de Juan, que en el ejemplo es `participacion6`.
+Consulta el estado de quien recibió el rol de Asesino. Como recibió cinco votos, el ejemplo muestra que está eliminado.
 
 ## 6. Cómo explicarlo de corrido
 
-«Primero tengo las clases Jugador y Rol, que representan la identidad y el rol. Después Participacion relaciona ambos objetos y guarda si el jugador está vivo. Partida tiene una lista de participaciones y métodos para recorrerla, resolver la noche y contar una votación. En main creo los objetos, los relaciono y preparo una ronda de ejemplo».
+«Primero tengo las clases Jugador y Rol, que representan la identidad y el rol. Después Participacion relaciona ambos objetos y guarda si el jugador está vivo. Partida tiene una lista de participaciones y métodos para recorrerla, resolver la noche y contar una votación. En main creo los objetos, mezclo los roles, los relaciono y preparo una ronda de ejemplo».
 
 Para ejecutar, desde la carpeta `codificacion`, escribir `python3 main.py`. En Windows puede ser `py main.py` o `python main.py`, según la instalación.
 
